@@ -1,6 +1,6 @@
 
 import { Box, styled, Typography, Link } from '@mui/material';
-import { GitHub, Instagram, Email,LinkedIn } from '@mui/icons-material';
+import { Email,LinkedIn } from '@mui/icons-material';
 
 const Banner = styled(Box)`
     background-image: url(http://mrtaba.ir/image/bg2.jpg);

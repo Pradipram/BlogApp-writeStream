@@ -79,7 +79,7 @@ const Update = () => {
         catch(error){
             console.log("getting error while calling fetch data while updating ",error);
         }
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         const getImage = async () => { 
@@ -96,7 +96,7 @@ const Update = () => {
             }
         }
         getImage();
-    }, [file])
+    }, [file,post])
 
     const updateBlogPost = async () => {
         try{
@@ -114,7 +114,8 @@ const Update = () => {
 
     return (
         <Container>
-            <Image src={post.picture || url} alt="post" />
+            {/* <Image src={post.picture || url} alt="post" /> */}
+            <Image src={imageURL || url} alt='post'/>
 
             <StyledFormControl>
                 <label htmlFor="fileInput">

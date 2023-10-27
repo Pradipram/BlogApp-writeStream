@@ -6,7 +6,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { API } from '../../service/api';
 import { API_URL } from '../../constants/config';
-
 import { DataContext } from '../../context/dataProvider';
 
 
@@ -69,19 +68,38 @@ const DetailView = () => {
     const { id } = useParams();
     
     useEffect(() => {
-        const fetchData = async () => {
-            let response = await API.getPostById(id);
-            if (response.isSuccess) {
+        // const fetchData = async () => {
+            // let response = await API.getPostById(id);
+        //     if (response.isSuccess) {
+        //         setPost(response.data);
+        //     }
+        // }
+        // try{
+        //     fetchData();
+        // }
+        // catch(error){
+        //     console.log("getting error while fetching detail view ",error);
+        // }
+        const fetchData = async()=>{
+            try{
+                let response = await axios.get(`${API_URL}/post/${id}`,{
+                    headers:{
+                        authorization : getAccessToken()
+                    }
+                })
+                console.log('post by id ',response);
                 setPost(response.data);
             }
+            catch(err){
+                console.log("error in post by id ",err);
+            }
         }
-        try{
-            fetchData();
-        }
-        catch(error){
-            console.log("getting error while fetching detaisl view ",error);
-        }
-    }, []);
+        fetchData();
+    }, [id]);
+
+    // useEffect(()=>{
+    //     console.log("post ",post);
+    // },[post]);
 
     const deleteBlog = async () => {  
         try{

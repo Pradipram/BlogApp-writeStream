@@ -2,11 +2,13 @@ import { useState, useEffect, useContext } from 'react';
 import { Box, TextareaAutosize, Button, styled } from '@mui/material';
 
 import { DataContext } from '../../../context/dataProvider';
-
+import { getAccessToken } from '../../../utils/common-utils';
 import { API } from '../../../service/api';
 
 //components
 import Comment from './comment';
+import axios from 'axios';
+import { API_URL } from '../../../constants/config';
 
 const Container = styled(Box)`
     margin-top: 100px;
@@ -37,24 +39,39 @@ const Comments = ({ post }) => {
 
     const [comment, setComment] = useState(initialValue);
     const [comments, setComments] = useState([]);
-    const [toggle, setToggle] = useState(false);
+    // const [toggle, setToggle] = useState(false);
 
     const { account } = useContext(DataContext);
 
     useEffect(() => {
         const getData = async () => {
             try{
-                const response = await API.getAllComments(post._id);
-                if (response.isSuccess) {
-                    setComments(response.data);
-                }
+                // const response = await API.getAllComments(post._id);
+                // if (response.isSuccess) {
+                //     console.log("response.data is ",response.data);
+                //     setComments(response.data);
+                //     // console.log("comments",comments);
+                // }
+                const accessToken = getAccessToken();
+                const config = {
+                    headers: {
+                      'Authorization': accessToken,
+                    },
+                  };
+                const response = await axios.get(`${API_URL}/comments/${post._id}`,config);
+                // console.log('response ',response);
+                setComments(response.data);
             }
             catch(error){
                 console.log("getting error while geting response from api call to get all comment ",error);
             }
         }
         getData();
-    }, [toggle, post]);
+    }, [post._id]);
+
+    // useEffect(()=>{
+    //     console.log("comments is updated ",comments);
+    // },[comments]);
 
     const handleChange = (e) => {
         setComment({
@@ -68,7 +85,7 @@ const Comments = ({ post }) => {
     const addComment = async() => {
         await API.newComment(comment);
         setComment(initialValue)
-        setToggle(prev => !prev);
+        // setToggle(prev => !prev);
     }
     
     return (
@@ -92,9 +109,18 @@ const Comments = ({ post }) => {
             <Box>
                 {
                     comments && comments.length > 0 && comments.map(comment => (
-                        <Comment comment={comment} setToggle={setToggle} />
+                        // <Comment comment={comment} setToggle={setToggle} />
+                        <Comment comment={comment} key={comment._id} />
                     ))
                 }
+                {/* {
+                    comments && comments.length>0 && comments.map(c =>(
+                        <div>comments.map is also valid</div>
+                    ))
+                }
+                {
+                    comments && <div>comments is valid</div>
+                } */}
             </Box>
         </Box>
     )

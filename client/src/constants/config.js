@@ -37,4 +37,5 @@ export const SERVICE_URLS = {
     updatePost: { url: 'update', method: 'PUT', query: true }
 }
 
-export const API_URL = 'http://localhost:8000';
+// export const API_URL = 'http://localhost:8000';
+export const API_URL = '';

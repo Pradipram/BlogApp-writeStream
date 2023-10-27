@@ -20,7 +20,7 @@ const PrivateRoute = ({isAuthenticated,...props}) =>{
   </>
   :
   <Navigate replace to={'/login'}/>
-}
+}  
 
 function App() {
 
@@ -33,24 +33,39 @@ function App() {
           <Routes>
             <Route path="/login" element ={<Login isUserAuthenticated = {isUserAuthenticated}/>}/>
 
+            {/* <Route path="/login" element={<Login/>}/> */}
+
             <Route path="/" element = {<PrivateRoute isAuthenticated = {isAuthenticated}/>}>
               <Route path="/" element = {<Home/>}/>
             </Route>
+
+              {/* <Route path="/" element = {<Home/>}/> */}
+
             <Route path="/create" element = {<PrivateRoute isAuthenticated = {isAuthenticated}/>}>
               <Route path="/create" element = {<CreatePost/>}/>
             </Route>
+              {/* <Route path="/create" element = {<CreatePost/>}/> */}
+
             <Route path="/details/:id" element = {<PrivateRoute isAuthenticated = {isAuthenticated}/>}>
               <Route path="/details/:id" element = {<DetailView/>}/>
             </Route>
+              {/* <Route path="/details/:id" element = {<DetailView/>}/> */}
+
             <Route path="/update/:id" element = {<PrivateRoute isAuthenticated = {isAuthenticated}/>}>
               <Route path="/update/:id" element = {<Update/>}/>
             </Route>
+              {/* <Route path="/update/:id" element = {<Update/>}/> */}
+
             <Route path="/about" element = {<PrivateRoute isAuthenticated = {isAuthenticated}/>}>
               <Route path="/about" element = {<About/>}/>
             </Route>
+              {/* <Route path="/about" element = {<About/>}/> */}
+
             <Route path="/contact" element = {<PrivateRoute isAuthenticated = {isAuthenticated}/>}>
               <Route path="/contact" element = {<Contact/>}/>
             </Route>
+              {/* <Route path="/contact" element = {<Contact/>}/> */}
+
           </Routes>
         </div>
       </BrowserRouter>

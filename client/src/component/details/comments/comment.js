@@ -35,7 +35,8 @@ const DeleteIcon = styled(Delete)`
     cursor : pointer;
 `;
 
-const Comment = ({ comment, setToggle }) => {
+// const Comment = ({ comment, setToggle }) => {
+const Comment = ({ comment}) => {
 
     const { account } = useContext(DataContext)
 
@@ -47,7 +48,7 @@ const Comment = ({ comment, setToggle }) => {
                 authorization: getAccessToken(),
             }, 
         })
-       setToggle(prev => !prev);
+    //    setToggle(prev => !prev);
         }
         catch(error){
             console.log("geting error while deleting comment from post ",error.message);
