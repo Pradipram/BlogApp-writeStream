@@ -33,7 +33,7 @@ const Categories = () => {
             <StyledTable>
                 <TableHead>
                     <TableRow>
-                        <TableCell>
+                        <TableCell sx={{boxShadow:category === null?' rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset':'none'}}>
                             <StyledLink to={"/"}>
                                 All Categories
                             </StyledLink>
@@ -43,8 +43,8 @@ const Categories = () => {
                 <TableBody>
                     {
                         categories.map(category => (
-                            <TableRow key={category.id}>
-                                <TableCell>
+                            <TableRow key={category.id} sx={{}}>
+                                <TableCell sx={{boxShadow:category.type === searchParams.get('category')?' rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset':'none'}}>
                                     <StyledLink to={`/?category=${category.type}`}>
                                         {category.type}
                                     </StyledLink>
