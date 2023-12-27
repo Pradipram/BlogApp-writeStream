@@ -83,28 +83,45 @@ const Login = ({isUserAuthenticated}) => {
     const toggleSignup = () => {
       setError('');
       setSignuperror(signuperrorinit);
-        account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
+      account === 'signup' ? toggleAccount('login') : toggleAccount('signup');
     }
 
     const onInputChange = (e) => {
       setError('');
       setSignuperror(signuperrorinit);
-        setSignup({ ...signup, [e.target.name]: e.target.value });
-        // console.log(signup);
+      // if(e.target.value.includes(' '))
+      setSignup({ ...signup, [e.target.name]: e.target.value });
+      // console.log(signup.username);
     }
 
     const signupUser = async () => {
       setError('');
       setSignuperror(signuperrorinit);
-      try {
-        const response = await axios.post(`${API_URL}/signup`,signup);
-        console.log("response",response);
-        alert(response.data.msg);
-        toggleAccount('login');
-      } catch (error) {
-        console.log("error",error);
-        setSignuperror(error.response.data);
-        // alert("something unexpected happened.Please try again");
+      if (signup.username.includes(' ')) {
+        setSignuperror((prevErrors) => ({
+          ...prevErrors,
+          username: "Username must not contain space",
+        }));
+        // Note: The state update is asynchronous, so you won't see the updated state immediately here.
+        // Instead, you can log the state in a useEffect or use the updated state in the next render.
+      }
+      else if(signup.password.includes(' ')){
+        setSignuperror((prevErrors) =>(
+          {...prevErrors,
+          password: "Password must not contain space"}
+        ))
+      }
+      else{
+        try {
+          const response = await axios.post(`${API_URL}/signup`,signup);
+          // console.log("response",response);
+          alert(response.data.msg);
+          toggleAccount('login');
+        } catch (error) {
+          console.log("error",error);
+          setSignuperror(error.response.data);
+          // alert("something unexpected happened.Please try again");
+        }
       }
     };  
     
