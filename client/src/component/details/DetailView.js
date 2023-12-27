@@ -4,7 +4,6 @@ import { Box, Typography, styled } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
-import { API } from '../../service/api';
 import { API_URL } from '../../constants/config';
 import { DataContext } from '../../context/dataProvider';
 
