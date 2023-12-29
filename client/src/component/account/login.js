@@ -1,70 +1,25 @@
-import { Box, Button, TextField, Typography, styled } from "@mui/material";
+// import { Box, Button, TextField, Typography, styled } from "@mui/material";
 import { useContext, useState } from "react";
 import { API } from "../../service/api";
 import { DataContext } from "../../context/dataProvider";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../../constants/config";
+import { Component, Error, LoginButton, SignupButton, Text, Wrapper } from "./loginStyle";
+import { Box, TextField } from "@mui/material";
 
-const Component = styled(Box)`
-  width: 400px;
-  margin: auto;
-  box-shadow: 5px 2px 5px 2px rgb(0 0 0/ 0.6);
-`;
-
-
-const Wrapper = styled(Box)`
-  padding: 25px 35px;
-  display: flex;
-  flex: 1;
-  overflow: auto;
-  flex-direction: column;
-  & > div,
-  & > button,
-  & > p {
-    margin-top: 20px;
-  }
-`;
-
-const LoginButton = styled(Button)`
-    color: #fff;
-    height: 48px;
-`;
-
-const SignupButton = styled(Button)`
-    text-transform: none;
-    background: #fff;
-    color: #2874f0;
-    height: 48px;
-    border-radius: 2px;
-    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
-`;
-
-const Text = styled(Typography)`
-    color: #878787;
-    font-size: 12px;
-`;
-
-const Error = styled(Typography)`
-    font-size: 10px;
-    color: #ff6161;
-    line-height: 0;
-    margin-top: 10px;
-    font-weight: 600;
-`
-
-const signupInitialValues = {
+export  const signupInitialValues = {
     name: '',
     username: '',
     password: '',
 };
 
-const loginInitialValues = {
+export  const loginInitialValues = {
   username: '',
   password: ''
 };
 
-const signuperrorinit = {
+export  const signuperrorinit = {
   name:'',
   username:'',
   password:''
@@ -141,7 +96,7 @@ const Login = ({isUserAuthenticated}) => {
         
         sessionStorage.setItem('accessToken', `Bearer ${res.data.accessToken}`);
         sessionStorage.setItem('refreshToken', `Bearer ${res.data.refreshToken}`);
-        setAccount({ name: res.data.name, username: res.data.username });
+        setAccount({ name: res.data.name, username: res.data.username,bannerUrl:res.data.bannerUrl });
         
         isUserAuthenticated(true)
         setLogin(loginInitialValues);

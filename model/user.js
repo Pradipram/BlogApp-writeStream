@@ -14,6 +14,10 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: [true,"Please enter password"]
+    },
+    bannerUrl:{
+        type : String,
+        default : 'https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg'
     }
 });
 

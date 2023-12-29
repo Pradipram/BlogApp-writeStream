@@ -67,6 +67,7 @@ export const loginUser = async (request, response) => {
           refreshToken: refreshToken,
           name: user.name,
           username: user.username,
+          bannerUrl: user.bannerUrl
         });
     } else {
       response.status(400).json({ msg: "Password does not match" });

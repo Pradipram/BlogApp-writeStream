@@ -54,3 +54,13 @@
   text-align: center;
   font-size: 24px;
 }
+
+.Icon{
+  /* background-color: red; */
+  background-color: black;
+  cursor: pointer;
+  color: white;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
