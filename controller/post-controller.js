@@ -6,7 +6,7 @@ export const createPost = async (request, response) => {
         const post = await new Post(request.body);
         post.save();
 
-        response.status(200).json('Post saved successfully');
+        response.status(200).json({post,msg:'Post saved successfully'});
     } catch (error) {
         response.status(500).json(error);
     }

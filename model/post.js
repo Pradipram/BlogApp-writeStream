@@ -10,9 +10,9 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    picture: {
+    imageUrl: {
         type: String,
-        required: false
+        default : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
     },
     username: {
         type: String,
@@ -23,7 +23,8 @@ const PostSchema = mongoose.Schema({
         required: false   
     },
     createdDate: {
-        type: Date
+        type: Date,
+        default : Date.now()
     }
 });
 

@@ -1,50 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-
-import { styled, Box, TextareaAutosize, Button, InputBase, FormControl  } from '@mui/material';
 import { AddCircle as Add } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { API } from '../../service/api';
 import { DataContext } from '../../context/dataProvider';
 import axios from 'axios';
-
 import { API_URL } from '../../constants/config';
+import { Container, Image, InputTextField, StyledFormControl, Textarea } from './createStyle';
+import { Button } from '@mui/material';
 // const API_URL = '';
 
-const Container = styled(Box)(({ theme }) => ({
-    margin: '50px 100px',
-    [theme.breakpoints.down('md')]: {
-        margin: 0
-    }
-}));
 
-const Image = styled('img')({
-    width: '100%',
-    height: '50vh',
-    objectFit: 'cover'
-});
-
-const StyledFormControl = styled(FormControl)`
-    margin-top: 10px;
-    display: flex;
-    flex-direction: row;
-`;
-
-const InputTextField = styled(InputBase)`
-    flex: 1;
-    margin: 0 30px;
-    font-size: 25px;
-`;
-
-const Textarea = styled(TextareaAutosize)`
-    width: 100%;
-    border: none;
-    margin-top: 50px;
-    font-size: 18px;
-    &:focus-visible {
-        outline: none;
-    }
-`;
 
 const initialPost = {
     title: '',
@@ -69,9 +35,8 @@ const CreatePost = () => {
         const getImage = async () => { 
             if(file) {
                 const data = new FormData();
-                data.append("name", file.name);
                 data.append("file", file);
-                console.log("Data after appending:", data);
+                // console.log("Data after appending:", data);
                 try{
                     const response = await axios.post(`${API_URL}/file/upload`,data);
                     post.picture = response.data;

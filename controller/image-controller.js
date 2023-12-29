@@ -57,9 +57,10 @@ export const uploadImage = async(req,res) =>{
             // console.log('image is saved to the gridfs',req.file);
             // console.log(req.body.username,'image-controller',57);
             const imageUrl = `${url}/file/${req.file.filename}`;
-            const updatedUser = await user.findOneAndUpdate({username:req.body.username},{bannerUrl : imageUrl},{new :true});
-            console.log(updatedUser,'image-controller',61);
-            res.status(200).json({updatedUser});
+            // const updatedUser = await user.findOneAndUpdate({username:req.body.username},{bannerUrl : imageUrl},{new :true});
+            // console.log(updatedUser,'image-controller',61);
+            // res.status(200).json({updatedUser});
+            return res.status(200).json({imageUrl});
         }
 
     }

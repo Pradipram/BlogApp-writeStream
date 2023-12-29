@@ -76,3 +76,14 @@ export const loginUser = async (request, response) => {
     response.status(500).json({ msg: "error while login the user" });
   }
 };
+
+export const updateUser = async(req,res) =>{
+  try{
+      const updatedUser = await User.findOneAndUpdate({username:req.body.username},{bannerUrl : req.body.bannerUrl},{new :true});
+      res.status(200).json({updatedUser});
+  }
+  catch(err){
+    console.log(err,'user-controller',85);
+    return res.status(404).json({msg:err.message});
+  }
+}
