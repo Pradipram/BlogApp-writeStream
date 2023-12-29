@@ -1,14 +1,31 @@
 import Post from "../model/post.js"
 
+const handleError = (err)=>{
+  let errors = {title:'',description:''};
+  if(err.code === 11000){
+    errors.title = "Please Enter a Unique Title";
+    return errors;
+  }
+
+  if(err.message.includes('post validation failed')){ 
+    Object.values(err.errors).forEach(({properties}) =>{
+        errors[properties.path] = properties.message;
+    })
+  }
+  return errors;
+}
 
 export const createPost = async (request, response) => {
     try {
         const post = await new Post(request.body);
-        post.save();
+        await post.save();
 
         response.status(200).json({post,msg:'Post saved successfully'});
     } catch (error) {
-        response.status(500).json(error);
+        // response.status(500).json(error);
+        console.log(error,'post-contorller',26);
+        const errors = handleError(error);
+        return response.status(500).json({errors});
     }
 }
 

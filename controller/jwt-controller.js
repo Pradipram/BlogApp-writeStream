@@ -6,9 +6,9 @@ import Token from '../model/token.js';
 dotenv.config();
 
 export const authenticateToken = (request, response, next) => {
-    // console.log(request.headers);
+    // console.log(request.headers,'jwt-controller',9);
     const authHeader = request.headers['authorization'];
-    // console.log("authHeader ",authHeader);
+    // console.log(authHeader,'jwt-controller',11);
     const token = authHeader && authHeader.split(' ')[1];
     // console.log("token ",token);
 

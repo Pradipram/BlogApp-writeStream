@@ -24,7 +24,6 @@ const Banner = () => {
             if(image){
                 // console.log(image,'banner.js',24);
                 const formData = new FormData();
-                formData.append('username',account.username);
                 formData.append('image',image);
                 // console.log(formData,'banner',36);
                 const imageRes = await UploadImage(formData);

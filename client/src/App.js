@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import "./App.css"
 import Login from "./component/account/login"
 import Header from "./component/header/Header";
@@ -67,6 +70,7 @@ function App() {
               {/* <Route path="/contact" element = {<Contact/>}/> */}
 
           </Routes>
+          <ToastContainer/>
         </div>
       </BrowserRouter>
     </DataProvider>

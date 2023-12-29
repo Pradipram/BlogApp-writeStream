@@ -17,7 +17,7 @@ router.post('/login',loginUser);
 router.put('/update-user',updateUser);  
 
 // router.post('/file/upload',upload.single('file'),uploadImage);
-router.post('/create',authenticateToken,createPost);
+// router.post('/create',authenticateToken,createPost);
 router.get('/posts',authenticateToken,getAllPosts);
 router.get('/post/:id',authenticateToken,getPost);
 router.put('/update/:id',authenticateToken,updatePost);
@@ -29,5 +29,8 @@ router.delete('/comment/delete/:id',authenticateToken,deleteComment);
 //Uploading image
 router.post('/file/upload-image',upload.single('image'),uploadImage);
 router.get('/file/:filename',getImage);
+
+//post related routes
+router.post('/post/create',authenticateToken,createPost);
 
 export default router;

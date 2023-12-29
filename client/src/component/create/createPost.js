@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AddCircle as Add } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
+  import { toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
-import { API } from '../../service/api';
 import { DataContext } from '../../context/dataProvider';
-import axios from 'axios';
-import { API_URL } from '../../constants/config';
 import { Container, Image, InputTextField, StyledFormControl, Textarea } from './createStyle';
 import { Button } from '@mui/material';
+import { UploadImage } from '../../service/ImageApi';
+import { createPost } from '../../service/postApi';
 // const API_URL = '';
-
-
 
 const initialPost = {
     title: '',
@@ -26,42 +26,52 @@ const CreatePost = () => {
     const location = useLocation();
 
     const [post, setPost] = useState(initialPost);
-    const [file, setFile] = useState('');
+    const [image,setImage] = useState('');
     const { account } = useContext(DataContext);
+    const [imageUrl,setImageUrl] = useState('https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80');
 
-    const url = post.picture ? post.picture : 'https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80';
-    
-    useEffect(() => {
-        const getImage = async () => { 
-            if(file) {
+    useEffect(()=>{
+        const getImageUrl = async () =>{
+            if(image){
                 const data = new FormData();
-                data.append("file", file);
-                // console.log("Data after appending:", data);
-                try{
-                    const response = await axios.post(`${API_URL}/file/upload`,data);
-                    post.picture = response.data;
-                    console.log("now the url of image is ",post.picture);
-                }
-                catch(error){
-                    console.log("getting error while uploading the image in database ",error);
+                data.append('image',image);
+                const res = await UploadImage(data);
+                if(res.data.imageUrl){
+                    setImageUrl(res.data.imageUrl);
                 }
             }
         }
-        console.log("printing file in createPost ",file);
-        getImage();
-        post.categories = location.search?.split('=')[1] || 'All';
-        post.username = account.username;
-    }, [file,account,location,post])
+        getImageUrl();
+    },[image])
       
 
     const savePost = async () => {
-        try{
-            await API.createPost(post);
+        post.categories = location.search?.split('=')[1] || 'All';
+        post.username = account.username;
+        post.picture = imageUrl;
+        // console.log(post,'createPost',74);
+
+        const res = await createPost(post);
+        console.log(res,'createPost',77);
+        if(res.status === 500){
+            if(res.data.errors.title){
+                // alert('hello world');
+                toast.error(res.data.errors.title);
+            }
+            else{
+                toast.error(res.data.errors.description);
+            }
+        }
+        else if(res.status === 200){
+            toast.success('Post saved successfully');
             navigate('/');
         }
-        catch(error){
-            console.log("getting error while saving post ",error);
+        else{
+            toast.error('Internal server error');  
         }
+        // if(res.response.status === 403){
+        //     alert('Please Login to continue');
+        // }
     }
 
     const handleChange = (e) => {
@@ -70,18 +80,21 @@ const CreatePost = () => {
 
     return (
         <Container>
-            <Image src={url} alt="post" />
+            <div style={{position:'relative'}}>
+                <Image src={imageUrl} alt="post" />
+                <label htmlFor='fileInput'>
+                    <EditIcon sx={{position:'absolute',right:'10px',bottom:'10px',backgroundColor:'black',color:'white',padding:'2px',cursor:'pointer'}}/>
+                </label>
+            </div>
 
             <StyledFormControl>
-                <label htmlFor="fileInput">
-                    <Add fontSize="large" color="action" />
-                </label>
+                <Add fontSize="large" color="action" />
                 <input
                     name='file'
                     type="file"
                     id="fileInput"
                     style={{ display: "none" }}
-                    onChange={(e) => setFile(e.target.files[0])}
+                    onChange={(e) => setImage(e.target.files[0])}
                 />
                 <InputTextField onChange={(e) => handleChange(e)} name='title' placeholder="Title" />
                 <Button onClick={() => savePost()} variant="contained" color="primary">Publish</Button>

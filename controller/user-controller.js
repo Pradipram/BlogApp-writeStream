@@ -23,14 +23,14 @@ const handleError = (err)=>{
 
 export const singupUser = async (request, response) => {
   try {
-    console.log(request.body);
+    // console.log(request.body);
     const userData = request.body;
     const newUser = new User(userData);
     await newUser.save();
     // console.log("new user", newUser);
     return response
       .status(200)
-      .json({ msg: "Signup successfull", user: "unexpected error"});
+      .json({ msg: "Signup successfull"});
   } catch (error) {
     const errors = handleError(error);
     // console.log("error ",errors);
