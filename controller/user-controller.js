@@ -60,6 +60,15 @@ export const loginUser = async (request, response) => {
       const newToken = new Token({ token: refreshToken });
       await newToken.save();
 
+      response.cookie('userId', user.username, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        sameSite: 'strict', // CSRF protection
+        maxAge: 15 * 60 * 1000 // 15 minutes
+      });
+
+      console.log("cookies has been saved successfully")
+
       response
         .status(200)
         .json({
@@ -73,6 +82,7 @@ export const loginUser = async (request, response) => {
       response.status(400).json({ msg: "Password does not match" });
     }
   } catch (error) {
+    console.log("error,user-controller",error)
     response.status(500).json({ msg: "error while login the user" });
   }
 };
