@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { DataContext } from '../../context/dataProvider';
 import UserProfileDrawer from './profile';
 
+import logo from "../../Images/logo.png"
+
 const Component = styled(AppBar)`
     color: black;
 `;
@@ -19,7 +21,7 @@ const Container = styled(Toolbar)`
 
 const Header = () => {
     const {account} = useContext(DataContext);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
 
     function stringToColor(string) {
@@ -63,6 +65,7 @@ const Header = () => {
     return (
         <Component>
             <Container>
+                <img src={logo} alt='Logo' height={50} style={{position:'fixed', left:'10px'}}/>
                 <Link to='/'>HOME</Link>
                 <Link to='/about'>ABOUT</Link>
                 <Link to='/contact'>CONTACT</Link>

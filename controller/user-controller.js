@@ -60,14 +60,14 @@ export const loginUser = async (request, response) => {
       const newToken = new Token({ token: refreshToken });
       await newToken.save();
 
-      response.cookie('userId', user.username, {
-        httpOnly: true,
+      response.cookie('userId', user.username.toString(), {
+        httpOnly: false,
         secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-        sameSite: 'strict', // CSRF protection
+        // sameSite: 'strict', // CSRF protection
         maxAge: 15 * 60 * 1000 // 15 minutes
       });
 
-      console.log("cookies has been saved successfully")
+      // console.log("cookies has been saved successfully")
 
       response
         .status(200)
