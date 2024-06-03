@@ -7,6 +7,7 @@ import axios from "axios";
 import { API_URL } from "../../constants/config";
 import { Component, Error, LoginButton, SignupButton, Text, Wrapper } from "./loginStyle";
 import { Box, TextField } from "@mui/material";
+import { userLoginEvent } from "../../service/userApi";
 
 export  const signupInitialValues = {
     name: '',
@@ -96,8 +97,32 @@ const Login = ({isUserAuthenticated}) => {
         
         sessionStorage.setItem('accessToken', `Bearer ${res.data.accessToken}`);
         sessionStorage.setItem('refreshToken', `Bearer ${res.data.refreshToken}`);
+
+        localStorage.setItem("useremail", res.data.username);
         setAccount({ name: res.data.name, username: res.data.username,bannerUrl:res.data.bannerUrl });
         
+        //send an event that user has been logged into the website
+        const indiaTimezone = 'Asia/Kolkata';
+        const date = new Date();
+        const options = {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZone: indiaTimezone,
+          timeZoneName: 'short'
+        };
+        
+
+        let userDetails = {
+          useremail: res.data.username,
+          timestamp : date.toLocaleString('en-IN', options)
+        }
+        const eventRes = await userLoginEvent(userDetails)
+        console.log(eventRes);
+
         isUserAuthenticated(true)
         setLogin(loginInitialValues);
         navigate('/');
